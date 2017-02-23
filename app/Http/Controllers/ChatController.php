@@ -11,12 +11,17 @@ class ChatController extends Controller
 
    	public function createChatPeople($senderId, $receiverId)
    	{
-   		// Create chat with someone
+   		// Request create chat with someone
    	}
 
     public function createChatRoom($senderId, $roomId)
    	{
-   		// Create chat with someone
+   		// Request create chat with someone
    	}
+
+    public function deleteChatById($chatId)
+    {
+      // Request delete a chat
+    }
 
 }
