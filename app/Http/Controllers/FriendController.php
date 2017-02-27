@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Friend
 
 class FriendController extends Controller
 {
@@ -11,15 +12,31 @@ class FriendController extends Controller
 
    	public function createFriendRequest($userId, $friendId)
    	{
-   		// Create entry (with a timestamp)
-   	}
+      $friend = new Friend;
+
+      $friend->user_id = $userId;
+      $friend->friend_id = $friendId;
+      $friend->is_friend = false;
+
+      $friend->save();
+    }
 
     public function acceptFriendRequest ($userId, $friendId)
     {
-      // Request to accept friend Request
+      $friend = Friend::
+                  where('$user_id',$userId)
+                  ->where('friend_id', $friendId)
+                  ->get();
+
+      $friend->is_friend = true;
+
+      $friend->save();
     }
 
     public function declineFriendRequest ($userId, $friendId){
-      // Request to decline friend request
+      $friend = Friend::
+                  where('$user_id',$userId)
+                  ->where('friend_id', $friendId);
+      $friend->delete();
     }
 }

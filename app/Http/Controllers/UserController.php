@@ -3,28 +3,46 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User
 
 class UserController extends Controller
 {
 
    	public function createUser($info)
    	{
-   		// Send information in an array to the database
+      $user = new User;
+
+      $user->username = $info[0];
+      $user->password = $info[1];
+      $user->alias = $info[2];
+      $user->email = $info[3];
+
+      $user->save();
    	}
 
-   	public function fetchById($id)
+   	public function fetchById($userId)
    	{
-   		// Request fetch user by his id
+      $user = User::find($userId);
+      //return view('user.index', ['users' => $users]);
+
    	}
 
-   	public function deleteById($id)
+   	public function deleteById($userId)
     {
-      // Request delete a user by his id
-   	}
+      $user = User::find($userId);
+      $user->delete();
+       	}
 
-    public function UpdateUser($id,$newInfo)
+    public function UpdateUser($userId,$newInfo)
     {
-      // Send updated information to database
+      $user = User::find($userId);
+
+      $user->username = $newInfo[0];
+      $user->password = $newInfo[1];
+      $user->alias = $newInfo[2];
+      $user->email = $newInfo[3];
+
+      $user->save();
     }
 
 }
