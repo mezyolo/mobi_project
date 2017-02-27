@@ -2,26 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\RoomTag;
 use Illuminate\Http\Request;
 
 class RoomTagController extends Controller
 {
     public function create($roomId, $tagsId) 
     {
-    	//foreach Tag — insert(room, tagId)
-        foreach ($tagsId as $tag) {
-            DB::insert('insert into room_tag (room_id, tag_id) values (:room, :tag)', ['room' => $roomId, 
-            'tag' => $tag]);
+        foreach ($tagsId as $tagId) {
+            $roomTag = new RoomTag;
+            $roomTag->room_id = $roomId;
+            $roomTag->tag_id = $tagId;
+            $roomTag->save();
         }
-    }
-
-    public function delete() 
-    {
-
     }
 
     public function deleteTags($roomId) 
     {
-    	DB::delete('delete from tag where room_id = :roomId', ['roomId' => $roomId]);
+        $roomTags = App\RoomTag::where('room_id', $roomId)
+               ->get();
+        foreach ($roomTags as $roomTag) {
+            App\RoomTag::destroy($roomTags->id)
+        }
     }
 }

@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Tag;
 use Illuminate\Http\Request;
 
 class TagController extends Controller
@@ -10,33 +11,41 @@ class TagController extends Controller
     // Si y'existe pas
     public function create($name) 
     {
-        // TODO : get id (SEQ?)
-        // TODO : ajouter le field pour la quantité
-    	DB::insert('insert into tag (tag_id, name) values (:id, :name)', ['id' => $id, 
-            'name' => $name]);
+        $tag = new Tag;
+        $tag->name = $name;
+        $tag->quantity = 1;
+        $tag->save();
     }
 
     // Admin qui delete un tag
 	public function delete($id) 
 	{
-    	$deleted = DB::delete('delete from tag where id = :id', ['id' => $id]);
+        App\Tag::destroy($id);
     }
 
     // Créer le lexique
     public function index()
     {
-    	$tags = DB::select('select * from tag');
+    	$tags = App\Tag::all();
         return view('tag.index', ['tags' => $tags]);
     }
 
     // Lors de la création d'une room, incrémente les compteurs
-    public function incrementer($tags) {
-
+    public function increment($tags) {
+        foreach ($tags as $tag) {
+            $dbTag = App\Room::find($tag->id);
+            $dbTag->quantity = $tag->quantity + 1;
+            $dbTag.save();
+        }
     }
 
     // Lors de la suppression d'une room, décrémente
     public function decrement($tags) {
-
+        foreach ($tags as $tag) {
+            $dbTag = App\Room::find($tag->id);
+            $dbTag->quantity = $tag->quantity - 1;
+            $dbTag.save();
+        }
     }
 
     // Vérifie si un tag existe

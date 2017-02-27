@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\File;
 use Illuminate\Http\Request;
 
 class FileController extends Controller
@@ -12,13 +13,17 @@ class FileController extends Controller
    	public function create($name, $link, $size)
    	{
    		// Create entry (with a timestamp)
-         DB::insert('insert into files (name, link, size) values (:name, :link, :size)', ['name' => $name, 'link' => $link, 'size' => $size]);
+         $file = new File;
+         $file->name = $name;
+         $file->link = $link;
+         $file->size = $size;
+         $file->save();
    	}
 
    	public function fetchById($id)
    	{
    		// Fetch the file to get the link for the download
-         $file = DB::select('select * from files where id = :id', ['id' => $id]);
+         $file = App\File::find($id);
    	}
 
    	public function deleteOldFiles() {

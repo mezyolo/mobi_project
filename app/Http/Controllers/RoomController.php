@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Room;
 use Illuminate\Http\Request;
 
 class RoomController extends Controller
@@ -10,34 +11,39 @@ class RoomController extends Controller
 	// parameters : Nom de room, limit, publicOrPrivate
     public function create($name, $limit, $public) // - 1
     {
-        // TODO : Get ID (from SEQ?)
-    	DB::insert('insert into room (room_id, name, is_public, limit_users) values (:id, :name, :public, :limit)', ['id' => $id, 
-            'name' => $name, 'public' => $public, 'limit' => $limit]);
+        $room = new Room;
+        $room->name = $name;
+        $room->is_public = $public;
+        $room->limit_users = $limit;
+        $room->save();
     }
 
     // Suppression d'une room
     public function delete($id) 
     {
-    	$deleted = DB::delete('delete from room where id = :id', ['id' => $id]);
+        App\Room::destroy($id);
     }
 
     // Modification d'une room
     public function edit($id, $name, $limit, $public)
     {
-        $affected = DB::update('update room set name = :name, limit_users = :limit, is_public = :public where id = :id',
-         ['name' => $name, 'limit' => $limit, 'public' => $public, 'id' => $id]);	
+        $room = App\Room::find($id);
+        $room->name = $name;
+        $room->limit_users = $limit;
+        $room->is_public = $public;
+        $room->save();
     }
 
     public function getById($id)
     {
-    	$room = DB::select('select * from room where id = :id', ['id' => $id]);
+        $room = App\Room::find($id);
         return view('room.index', ['room' => $room]);
     }
 
     // Sélectionner tous les rooms
     public function index()
     {
-        $rooms = DB::select('select * from room');
+        $rooms = App\Room::all();
         return view('room.index', ['rooms' => $rooms]);
     }
 
