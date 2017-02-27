@@ -8,33 +8,37 @@ class RoomController extends Controller
 {
 	// Création d'une room
 	// parameters : Nom de room, limit, publicOrPrivate
-    public function create($nom, $limit, $public) // - 1
+    public function create($name, $limit, $public) // - 1
     {
-    	
-    	// Gère tags
+        // TODO : Get ID (from SEQ?)
+    	DB::insert('insert into room (room_id, name, is_public, limit_users) values (:id, :name, :public, :limit)', ['id' => $id, 
+            'name' => $name, 'public' => $public, 'limit' => $limit]);
     }
 
     // Suppression d'une room
-    public function delete() 
+    public function delete($id) 
     {
-    	// Gère tags
+    	$deleted = DB::delete('delete from room where id = :id', ['id' => $id]);
     }
 
     // Modification d'une room
-    public function edit($nom, $limit, $public)
+    public function edit($id, $name, $limit, $public)
     {
-    	
+        $affected = DB::update('update room set name = :name, limit_users = :limit, is_public = :public where id = :id',
+         ['name' => $name, 'limit' => $limit, 'public' => $public, 'id' => $id]);	
     }
 
     public function getById($id)
     {
-    	// Retourne la room avec l'ID correspondant
+    	$room = DB::select('select * from room where id = :id', ['id' => $id]);
+        return view('room.index', ['room' => $room]);
     }
 
     // Sélectionner tous les rooms
     public function index()
     {
-
+        $rooms = DB::select('select * from room');
+        return view('room.index', ['rooms' => $rooms]);
     }
 
     // Sélectionner les plus récentes (10?)
