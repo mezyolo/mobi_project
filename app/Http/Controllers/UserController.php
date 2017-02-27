@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User
+use App\Person
 
 class UserController extends Controller
 {
 
    	public function createUser($info)
    	{
-      $user = new User;
+      $user = new Person;
 
       $user->username = $info[0];
       $user->password = $info[1];
@@ -22,20 +22,20 @@ class UserController extends Controller
 
    	public function fetchById($userId)
    	{
-      $user = User::find($userId);
+      $user = Person::find($userId);
       //return view('user.index', ['users' => $users]);
 
    	}
 
    	public function deleteById($userId)
     {
-      $user = User::find($userId);
+      $user = Person::find($userId);
       $user->delete();
        	}
 
     public function UpdateUser($userId,$newInfo)
     {
-      $user = User::find($userId);
+      $user = Person::find($userId);
 
       $user->username = $newInfo[0];
       $user->password = $newInfo[1];
