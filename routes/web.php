@@ -11,6 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
+Route::get('/', 'RoomController@index');
+
+Route::get('/room/new', function () {
+	return view('room_creation');
 });

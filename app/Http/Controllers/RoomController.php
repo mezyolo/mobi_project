@@ -43,8 +43,8 @@ class RoomController extends Controller
     // Sélectionner tous les rooms
     public function index()
     {
-        $rooms = App\Room::all();
-        return view('room.index', ['rooms' => $rooms]);
+        $rooms = Room::all();
+        return view('home')->with('rooms', $rooms);
     }
 
     // Sélectionner les plus récentes (10?)

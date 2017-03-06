@@ -8,8 +8,7 @@
         <title>M.O.B.I.</title>
 
 		<!-- Bootstrap Core CSS -->
-        <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
-        <link href="css/home.css" rel="stylesheet">
+        <link href="../css/bootstrap/bootstrap.min.css" rel="stylesheet">
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
